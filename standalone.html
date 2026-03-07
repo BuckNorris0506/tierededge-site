@@ -300,6 +300,47 @@ h1 em {
   color: #4d443e;
 }
 
+.definitions {
+  padding: 26px 0 0;
+}
+
+.definitions-head h2 {
+  margin-top: 6px;
+  font-size: clamp(30px, 3.8vw, 46px);
+  line-height: .95;
+  max-width: 15ch;
+}
+
+.definitions-grid {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.definitions-grid article {
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: #fff8ef;
+  padding: 16px 18px;
+}
+
+.definitions-grid article h3 {
+  font-size: 24px;
+  line-height: 1.02;
+}
+
+.definitions-grid article p {
+  margin: 6px 0 0;
+  color: #4d443e;
+}
+
+.definitions-note {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
 .split {
   padding: 44px 0 0;
   display: grid;
@@ -416,6 +457,7 @@ summary::-webkit-details-marker { display: none; }
 
   .proof,
   .method-grid,
+  .definitions-grid,
   .split {
     grid-template-columns: 1fr;
   }
@@ -559,12 +601,12 @@ summary::-webkit-details-marker { display: none; }
       </div>
     </section>
 
-    <section id="definitions" class="method shell reveal">
-      <div class="method-head">
+    <section id="definitions" class="definitions shell reveal">
+      <div class="definitions-head">
         <p class="eyebrow">Research and Definitions (Public)</p>
         <h2>No gatekeeping. Learn the terms before you buy.</h2>
       </div>
-      <div class="method-grid">
+      <div class="definitions-grid">
         <article>
           <h3>+EV (Expected Value)</h3>
           <p>A bet is +EV when the long-run average outcome is positive, even though single bets can lose.</p>
@@ -590,7 +632,7 @@ summary::-webkit-details-marker { display: none; }
           <p>If edge or data quality is not there, the correct decision is no bet. Sitting is part of the strategy.</p>
         </article>
       </div>
-      <p>Full Research and Definitions guide is included in the download and also summarized here publicly.</p>
+      <p class="definitions-note">Full Research and Definitions guide is included in the download and summarized here publicly.</p>
     </section>
 
     <section id="pricing" class="pricing shell reveal">

@@ -289,6 +289,47 @@ h1 em {
   color: #4d443e;
 }
 
+.definitions {
+  padding: 26px 0 0;
+}
+
+.definitions-head h2 {
+  margin-top: 6px;
+  font-size: clamp(30px, 3.8vw, 46px);
+  line-height: .95;
+  max-width: 15ch;
+}
+
+.definitions-grid {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.definitions-grid article {
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: #fff8ef;
+  padding: 16px 18px;
+}
+
+.definitions-grid article h3 {
+  font-size: 24px;
+  line-height: 1.02;
+}
+
+.definitions-grid article p {
+  margin: 6px 0 0;
+  color: #4d443e;
+}
+
+.definitions-note {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
 .split {
   padding: 44px 0 0;
   display: grid;
@@ -405,6 +446,7 @@ summary::-webkit-details-marker { display: none; }
 
   .proof,
   .method-grid,
+  .definitions-grid,
   .split {
     grid-template-columns: 1fr;
   }
