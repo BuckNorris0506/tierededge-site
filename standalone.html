@@ -304,35 +304,33 @@ h1 em {
   padding: 26px 0 0;
 }
 
-.definitions-head h2 {
-  margin-top: 6px;
-  font-size: clamp(30px, 3.8vw, 46px);
-  line-height: .95;
-  max-width: 15ch;
+.definitions-card {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff8ef;
+  padding: 18px;
+}
+
+.definitions-card h3 {
+  margin: 6px 0 0;
+  font-size: clamp(24px, 2.4vw, 34px);
+  line-height: .98;
+  max-width: 20ch;
 }
 
 .definitions-grid {
-  margin-top: 14px;
+  margin-top: 12px;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+  gap: 8px 18px;
 }
 
-.definitions-grid article {
-  border-radius: 12px;
-  border: 1px solid var(--line);
-  background: #fff8ef;
-  padding: 16px 18px;
-}
-
-.definitions-grid article h3 {
-  font-size: 24px;
-  line-height: 1.02;
-}
-
-.definitions-grid article p {
-  margin: 6px 0 0;
+.definitions-grid p {
+  margin: 0;
+  padding: 8px 0;
+  border-bottom: 1px solid #e3d5c4;
   color: #4d443e;
+  font-size: 17px;
 }
 
 .definitions-note {
@@ -602,37 +600,19 @@ summary::-webkit-details-marker { display: none; }
     </section>
 
     <section id="definitions" class="definitions shell reveal">
-      <div class="definitions-head">
+      <article class="definitions-card">
         <p class="eyebrow">Research and Definitions (Public)</p>
-        <h2>No gatekeeping. Learn the terms before you buy.</h2>
-      </div>
-      <div class="definitions-grid">
-        <article>
-          <h3>+EV (Expected Value)</h3>
-          <p>A bet is +EV when the long-run average outcome is positive, even though single bets can lose.</p>
-        </article>
-        <article>
-          <h3>Vig</h3>
-          <p>The sportsbook margin built into odds. TieredEdge removes vig before edge math.</p>
-        </article>
-        <article>
-          <h3>CLV (Closing Line Value)</h3>
-          <p>The difference between your entry line and closing line. It is the core process KPI in this system.</p>
-        </article>
-        <article>
-          <h3>Kelly Sizing</h3>
-          <p>A bankroll-based sizing method. TieredEdge uses fixed fractional Kelly by tier.</p>
-        </article>
-        <article>
-          <h3>Drawdown</h3>
-          <p>The drop from bankroll peak to current bankroll. A 30% drawdown triggers the circuit breaker.</p>
-        </article>
-        <article>
-          <h3>NO EDGE - SIT</h3>
-          <p>If edge or data quality is not there, the correct decision is no bet. Sitting is part of the strategy.</p>
-        </article>
-      </div>
-      <p class="definitions-note">Full Research and Definitions guide is included in the download and summarized here publicly.</p>
+        <h3>No gatekeeping. Learn the terms before you buy.</h3>
+        <div class="definitions-grid">
+          <p><strong>+EV:</strong> positive long-run math.</p>
+          <p><strong>Vig:</strong> sportsbook margin removed before edge math.</p>
+          <p><strong>CLV:</strong> entry line vs closing line quality check.</p>
+          <p><strong>Kelly:</strong> bankroll-based sizing by tier.</p>
+          <p><strong>Drawdown:</strong> peak-to-current bankroll drop.</p>
+          <p><strong>NO EDGE - SIT:</strong> no forced bets.</p>
+        </div>
+        <p class="definitions-note">Full Research and Definitions guide is included in the download and published publicly here.</p>
+      </article>
     </section>
 
     <section id="pricing" class="pricing shell reveal">

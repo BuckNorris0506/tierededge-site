@@ -293,35 +293,33 @@ h1 em {
   padding: 26px 0 0;
 }
 
-.definitions-head h2 {
-  margin-top: 6px;
-  font-size: clamp(30px, 3.8vw, 46px);
-  line-height: .95;
-  max-width: 15ch;
+.definitions-card {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff8ef;
+  padding: 18px;
+}
+
+.definitions-card h3 {
+  margin: 6px 0 0;
+  font-size: clamp(24px, 2.4vw, 34px);
+  line-height: .98;
+  max-width: 20ch;
 }
 
 .definitions-grid {
-  margin-top: 14px;
+  margin-top: 12px;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+  gap: 8px 18px;
 }
 
-.definitions-grid article {
-  border-radius: 12px;
-  border: 1px solid var(--line);
-  background: #fff8ef;
-  padding: 16px 18px;
-}
-
-.definitions-grid article h3 {
-  font-size: 24px;
-  line-height: 1.02;
-}
-
-.definitions-grid article p {
-  margin: 6px 0 0;
+.definitions-grid p {
+  margin: 0;
+  padding: 8px 0;
+  border-bottom: 1px solid #e3d5c4;
   color: #4d443e;
+  font-size: 17px;
 }
 
 .definitions-note {
