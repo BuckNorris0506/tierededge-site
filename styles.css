@@ -354,6 +354,47 @@ h1 em {
   padding: 44px 0 0;
 }
 
+.live-log {
+  padding: 44px 0 0;
+}
+
+.live-log-card {
+  border: 1px solid #c9b39b;
+  border-radius: 20px;
+  padding: 24px;
+  background: linear-gradient(145deg, #fff4e5, #fae4d0);
+}
+
+.live-log-card h3 {
+  margin-top: 8px;
+  font-size: clamp(28px, 3.6vw, 46px);
+  line-height: .95;
+}
+
+.live-log-card p {
+  margin: 10px 0 0;
+  color: #4e433b;
+}
+
+.live-log-actions {
+  margin-top: 16px;
+}
+
+.live-log-frame-wrap {
+  margin-top: 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+  background: #fffaf1;
+}
+
+.live-log-frame {
+  width: 100%;
+  height: 620px;
+  border: 0;
+  display: block;
+}
+
 .pricing-card {
   border: 1px solid #c9b39b;
   border-radius: 20px;
@@ -466,5 +507,9 @@ summary::-webkit-details-marker { display: none; }
 
   .btn {
     width: 100%;
+  }
+
+  .live-log-frame {
+    height: 500px;
   }
 }

@@ -365,6 +365,47 @@ h1 em {
   padding: 44px 0 0;
 }
 
+.live-log {
+  padding: 44px 0 0;
+}
+
+.live-log-card {
+  border: 1px solid #c9b39b;
+  border-radius: 20px;
+  padding: 24px;
+  background: linear-gradient(145deg, #fff4e5, #fae4d0);
+}
+
+.live-log-card h3 {
+  margin-top: 8px;
+  font-size: clamp(28px, 3.6vw, 46px);
+  line-height: .95;
+}
+
+.live-log-card p {
+  margin: 10px 0 0;
+  color: #4e433b;
+}
+
+.live-log-actions {
+  margin-top: 16px;
+}
+
+.live-log-frame-wrap {
+  margin-top: 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+  background: #fffaf1;
+}
+
+.live-log-frame {
+  width: 100%;
+  height: 620px;
+  border: 0;
+  display: block;
+}
+
 .pricing-card {
   border: 1px solid #c9b39b;
   border-radius: 20px;
@@ -478,6 +519,10 @@ summary::-webkit-details-marker { display: none; }
   .btn {
     width: 100%;
   }
+
+  .live-log-frame {
+    height: 500px;
+  }
 }
 
 </style>
@@ -496,8 +541,10 @@ summary::-webkit-details-marker { display: none; }
     <nav>
       <a href="#method">Method</a>
       <a href="#proof">Why It Works</a>
+      <a href="#live-log">Live Log</a>
       <a href="#pricing">Pricing</a>
       <a href="#faq">FAQ</a>
+      <a href="https://x.com/tierededge">@tierededge</a>
     </nav>
     <a class="btn btn-outline" href="https://tierededge.gumroad.com/l/tierededge">Get Access</a>
   </header>
@@ -615,6 +662,36 @@ summary::-webkit-details-marker { display: none; }
       </article>
     </section>
 
+    <section id="sit-accountability" class="definitions shell reveal">
+      <article class="definitions-card">
+        <p class="eyebrow">Sit Accountability</p>
+        <h3>We track what we passed, not just what we bet.</h3>
+        <div class="definitions-grid">
+          <p><strong>Avoided losses:</strong> how much risk was avoided by sitting.</p>
+          <p><strong>Missed winners:</strong> where passing would have lost upside.</p>
+          <p><strong>Net counterfactual:</strong> full what-if result of passed bets.</p>
+          <p><strong>No cherry-picking:</strong> full sit set, not selective examples.</p>
+          <p><strong>Popular games first:</strong> NBA, NCAAB, NHL, NFL, UFC/MMA highlighted.</p>
+          <p><strong>Rule stays the same:</strong> No edge = sit.</p>
+        </div>
+        <p class="definitions-note">This is a transparency metric, not a profit guarantee.</p>
+      </article>
+    </section>
+
+    <section id="live-log" class="live-log shell reveal">
+      <article class="live-log-card">
+        <p class="eyebrow">Live Bet Log</p>
+        <h3>Full transparency. Real entries, real sits, real grading.</h3>
+        <p>Daily updates include placed bets, sit calls, CLV notes, and bankroll tracking.</p>
+        <div class="live-log-actions">
+          <a class="btn btn-solid" href="https://bucknorris0506.github.io/tierededge-live-log/" target="_blank" rel="noopener noreferrer">Open Full Live Log</a>
+        </div>
+        <div class="live-log-frame-wrap">
+          <iframe class="live-log-frame" src="https://bucknorris0506.github.io/tierededge-live-log/" title="TieredEdge Live Bet Log" loading="lazy"></iframe>
+        </div>
+      </article>
+    </section>
+
     <section id="pricing" class="pricing shell reveal">
       <div class="pricing-card">
         <p class="eyebrow">Pricing</p>
@@ -622,6 +699,7 @@ summary::-webkit-details-marker { display: none; }
         <p><strong>Founding 20</strong> launch seats: $39 while available.</p>
         <p>Typical ongoing cost is about $3-10 per month for the AI API. OpenClaw is free.</p>
         <p>Support: tierededgequant@gmail.com</p>
+        <p>X: @tierededge</p>
         <p>Buy link: https://tierededge.gumroad.com/l/tierededge</p>
         <div class="pricing-actions">
           <a class="btn btn-solid" href="https://tierededge.gumroad.com/l/tierededge">Buy on Gumroad</a>
@@ -655,6 +733,7 @@ summary::-webkit-details-marker { display: none; }
 
   <footer class="footer shell">
     <p>Educational and entertainment use only. Not financial advice. Sports betting involves risk of loss. Gamble responsibly and follow your local laws.</p>
+    <p>X: <a href="https://x.com/tierededge">@tierededge</a></p>
   </footer>
 
   <script>
