@@ -1,0 +1,620 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TieredEdge Quant Agent</title>
+  <meta name="description" content="TieredEdge Quant Agent is a disciplined +EV sports betting workflow for OpenClaw with tiered Kelly sizing, CLV tracking, and strict safety rails." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+:root {
+  --bg: #f4efe7;
+  --ink: #131212;
+  --muted: #5d544d;
+  --line: #d7c9b8;
+  --paper: #fffaf3;
+  --accent: #d7432f;
+  --accent-dark: #a62f20;
+  --dark: #1b1918;
+  --max: 1180px;
+}
+
+* { box-sizing: border-box; }
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Outfit", sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 92% 8%, #f6debb 0%, transparent 32%),
+    radial-gradient(circle at 8% 88%, #edd5b8 0%, transparent 30%),
+    var(--bg);
+  overflow-x: hidden;
+}
+
+.noise {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(0, 0, 0, 0.2) 0.45px, transparent 0.45px);
+  background-size: 3px 3px;
+  opacity: 0.2;
+}
+
+.shell {
+  width: min(var(--max), calc(100% - 40px));
+  margin: 0 auto;
+}
+
+.topbar {
+  padding: 22px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.brand {
+  text-decoration: none;
+  color: var(--ink);
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.brand-mark {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: var(--dark);
+  color: #fff;
+  font-weight: 800;
+  font-size: 13px;
+}
+
+.brand strong {
+  display: block;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+}
+
+.brand small {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+}
+
+nav {
+  display: inline-flex;
+  gap: 18px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #2d2824;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.btn {
+  text-decoration: none;
+  border-radius: 999px;
+  padding: 12px 20px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform .16s ease, background .16s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-solid {
+  color: #fff;
+  background: linear-gradient(145deg, var(--accent), var(--accent-dark));
+  box-shadow: 0 14px 30px rgba(167, 50, 35, 0.3);
+}
+
+.btn-outline {
+  color: var(--ink);
+  border: 1px solid #282320;
+}
+
+.hero {
+  padding: 18px 0 14px;
+}
+
+.eyebrow {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: .15em;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+}
+
+h1,
+h2 {
+  letter-spacing: -0.04em;
+}
+
+h1 {
+  margin-top: 12px;
+  font-size: clamp(56px, 11vw, 142px);
+  line-height: .86;
+  max-width: 12.4ch;
+}
+
+h1 em {
+  font-family: "Instrument Serif", serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.hero-copy {
+  margin: 20px 0 0;
+  max-width: 64ch;
+  font-size: clamp(17px, 2vw, 22px);
+  color: #322d2a;
+}
+
+.hero-actions {
+  margin-top: 24px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.marquee {
+  border-top: 1px solid #201c19;
+  border-bottom: 1px solid #201c19;
+  margin-top: 24px;
+  overflow: hidden;
+}
+
+.marquee div {
+  display: inline-block;
+  white-space: nowrap;
+  animation: slide 22s linear infinite;
+  padding: 11px 0;
+}
+
+.marquee span {
+  margin: 0 22px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .09em;
+}
+
+@keyframes slide {
+  from { transform: translateX(0); }
+  to { transform: translateX(-45%); }
+}
+
+.proof {
+  padding: 36px 0 0;
+  display: grid;
+  grid-template-columns: 1.45fr 1fr;
+  gap: 14px;
+}
+
+.proof-main,
+.proof-side {
+  border-radius: 18px;
+  padding: 24px;
+  border: 1px solid var(--line);
+}
+
+.proof-main {
+  background: var(--paper);
+  grid-row: span 2;
+  box-shadow: 0 20px 48px rgba(57, 43, 34, 0.08);
+}
+
+.proof-main h2 {
+  margin-top: 10px;
+  font-size: clamp(34px, 4.3vw, 64px);
+  line-height: .9;
+  max-width: 11ch;
+}
+
+.proof-main p {
+  margin: 16px 0 0;
+  font-size: 18px;
+  color: #433c38;
+  max-width: 50ch;
+}
+
+.proof-side h3 {
+  font-size: 24px;
+}
+
+.proof-side p {
+  margin: 8px 0 0;
+}
+
+.dark {
+  background: #1f1b19;
+  color: #f2e8dc;
+  border-color: #4f4239;
+}
+
+.dark p {
+  color: #d8c9bb;
+}
+
+.warm {
+  background: #ead8c5;
+}
+
+.method {
+  padding: 44px 0 0;
+}
+
+.method-head h2 {
+  margin-top: 8px;
+  font-size: clamp(34px, 4.4vw, 60px);
+  line-height: .93;
+  max-width: 13ch;
+}
+
+.method-grid {
+  margin-top: 22px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.method-grid article {
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: #fff7ec;
+  padding: 20px;
+}
+
+.method-grid h3 {
+  font-size: 23px;
+}
+
+.method-grid p {
+  margin: 8px 0 0;
+  color: #4d443e;
+}
+
+.split {
+  padding: 44px 0 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: end;
+}
+
+.split h2 {
+  margin-top: 8px;
+  font-size: clamp(34px, 4.5vw, 66px);
+  line-height: .9;
+  max-width: 11ch;
+}
+
+.split-points p {
+  margin: 0 0 12px;
+  font-size: 20px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 10px;
+}
+
+.pricing {
+  padding: 44px 0 0;
+}
+
+.pricing-card {
+  border: 1px solid #c9b39b;
+  border-radius: 20px;
+  padding: 26px;
+  background: linear-gradient(145deg, #fff4e5, #fae4d0);
+}
+
+.pricing-card h2 {
+  margin-top: 8px;
+  font-size: clamp(32px, 4vw, 54px);
+  line-height: .92;
+}
+
+.pricing-card p {
+  margin: 12px 0 0;
+  color: #4e433b;
+}
+
+.pricing-actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.faq {
+  padding: 44px 0 0;
+}
+
+.faq h2 {
+  margin-top: 8px;
+  font-size: clamp(30px, 4vw, 48px);
+}
+
+.faq-list {
+  margin-top: 18px;
+  display: grid;
+  gap: 10px;
+}
+
+details {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fffaf1;
+  padding: 14px;
+}
+
+summary {
+  cursor: pointer;
+  font-weight: 800;
+  list-style: none;
+}
+
+summary::-webkit-details-marker { display: none; }
+
+.faq p {
+  margin: 8px 0 0;
+  color: #534840;
+}
+
+.footer {
+  margin-top: 54px;
+  padding: 20px 0 34px;
+  border-top: 1px solid #cdbda9;
+}
+
+.footer p {
+  margin: 0;
+  font-size: 13px;
+  color: #655a52;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity .64s ease, transform .64s ease;
+}
+
+.reveal.show {
+  opacity: 1;
+  transform: none;
+}
+
+@media (max-width: 980px) {
+  nav {
+    display: none;
+  }
+
+  .proof,
+  .method-grid,
+  .split {
+    grid-template-columns: 1fr;
+  }
+
+  .proof-main {
+    grid-row: auto;
+  }
+}
+
+@media (max-width: 700px) {
+  .shell {
+    width: min(var(--max), calc(100% - 24px));
+  }
+
+  .hero-actions,
+  .pricing-actions {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+
+</style>
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+
+  <header class="topbar shell">
+    <a class="brand" href="#top">
+      <span class="brand-mark">TE</span>
+      <span>
+        <strong>TieredEdge Quant Agent</strong>
+        <small>By Jared Buckman</small>
+      </span>
+    </a>
+    <nav>
+      <a href="#method">Method</a>
+      <a href="#proof">Why It Works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="btn btn-outline" href="https://tierededge.gumroad.com/l/tierededge">Get Access</a>
+  </header>
+
+  <main id="top">
+    <section class="hero shell reveal">
+      <p class="eyebrow">BUILT BY JARED • USED DAILY</p>
+      <h1>
+        Stop betting on feelings.
+        <em>Start betting</em>
+        on math.
+      </h1>
+      <p class="hero-copy">
+        I built TieredEdge because most bettors lose money the same way: they get emotional,
+        size up at the wrong time, and chase. This system gives you a repeatable daily workflow:
+        verify live odds, remove vig before edge math, size by fixed tiered Kelly rules, and sit when the edge is not there.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-solid" href="https://tierededge.gumroad.com/l/tierededge">Get TieredEdge</a>
+        <a class="btn btn-outline" href="#method">See How It Works</a>
+      </div>
+    </section>
+
+    <section class="marquee" aria-label="message strip">
+      <div>
+        <span>+EV ONLY</span>
+        <span>NO EDGE - SIT</span>
+        <span>CLV FIRST</span>
+        <span>RISK DISCIPLINE</span>
+        <span>NO FABRICATION</span>
+        <span>+EV ONLY</span>
+        <span>NO EDGE - SIT</span>
+      </div>
+    </section>
+
+    <section id="proof" class="proof shell reveal">
+      <article class="proof-main">
+        <p class="eyebrow">Why This Works</p>
+        <h2>It is built around expected value, not emotion.</h2>
+        <p>
+          Most bettors think they have a picks problem. They really have a process problem.
+          TieredEdge only proceeds when a market passes de-vigged edge math and confidence gates.
+          It runs fixed tier rules, fixed Kelly fractions, exposure caps, and a drawdown breaker.
+          It tracks CLV after close because CLV is the process KPI that matters most.
+        </p>
+      </article>
+      <article class="proof-side dark">
+        <h3>What Your 8 AM Output Looks Like</h3>
+        <p>
+          Lakers -9.5 | -110 | FanDuel<br>
+          Tier T2 | Edge +4.0% | Stake $47.00<br><br>
+          Omaha -3.5 | -106 | FanDuel<br>
+          Tier T3 | Edge +2.5% | Stake $14.00<br><br>
+          Total Risk Today: 6.0% bankroll
+        </p>
+      </article>
+      <article class="proof-side warm">
+        <h3>Safety Rails</h3>
+        <p>Tier edges are fixed at +6%, +4%, +2%. Kelly fractions are fixed at 0.75, 0.40, 0.20. Thirty percent drawdown breaker, niche market cap at fifteen percent daily risk, and no recommendations on unverified odds.</p>
+      </article>
+    </section>
+
+    <section id="method" class="method shell reveal">
+      <div class="method-head">
+        <p class="eyebrow">Daily Method</p>
+        <h2>How TieredEdge runs each day</h2>
+      </div>
+      <div class="method-grid">
+        <article>
+          <h3>1. Validate Live Data</h3>
+          <p>Every morning it pulls live odds across books and checks if the feed is clean before doing anything else.</p>
+        </article>
+        <article>
+          <h3>2. Compute Fair Market</h3>
+          <p>It converts odds format and removes vig first, so edge math is based on fair implied probability.</p>
+        </article>
+        <article>
+          <h3>3. Qualify and Size</h3>
+          <p>It only keeps bets that clear tier minimums, then sizes stake by bankroll with fixed tier Kelly rules.</p>
+        </article>
+        <article>
+          <h3>4. Log and Review</h3>
+          <p>It logs every decision, grades outcomes, tracks CLV, and keeps you disciplined when the right move is to sit.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="split shell reveal">
+      <div>
+        <p class="eyebrow">What You Get</p>
+        <h2>What you get each day is clarity, not noise.</h2>
+      </div>
+      <div class="split-points">
+        <p>A clean morning report with qualifying bets, tier, edge, stake, source book, and timestamp.</p>
+        <p>Clear sit decisions when there is no edge or data quality is weak.</p>
+        <p>Built-in tracking for CLV, bankroll, grading, and weekly process review.</p>
+        <p>Beginner setup path plus a pro guide when you want tighter operating control.</p>
+      </div>
+    </section>
+
+    <section id="pricing" class="pricing shell reveal">
+      <div class="pricing-card">
+        <p class="eyebrow">Pricing</p>
+        <h2>$59 standard access</h2>
+        <p><strong>Founding 20</strong> launch seats: $39 while available.</p>
+        <p>Typical ongoing cost is about $3-10 per month for the AI API. OpenClaw is free.</p>
+        <p>Support: tierededgequant@gmail.com</p>
+        <p>Buy link: https://tierededge.gumroad.com/l/tierededge</p>
+        <div class="pricing-actions">
+          <a class="btn btn-solid" href="https://tierededge.gumroad.com/l/tierededge">Buy on Gumroad</a>
+          <a class="btn btn-outline" href="#faq">Read FAQ</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="faq shell reveal">
+      <p class="eyebrow">FAQ</p>
+      <h2>Clear expectations before purchase.</h2>
+      <div class="faq-list">
+        <details>
+          <summary>Does this guarantee profit?</summary>
+          <p>No. It is a process framework for disciplined +EV decision-making and risk control. Variance and drawdowns are real.</p>
+        </details>
+        <details>
+          <summary>Does this place bets automatically?</summary>
+          <p>No. It sends structured recommendations. You place bets manually.</p>
+        </details>
+        <details>
+          <summary>What happens if odds data cannot be verified?</summary>
+          <p>The system outputs a sit decision and does not recommend bets on unverified data.</p>
+        </details>
+        <details>
+          <summary>Is there a definitions guide for betting terminology?</summary>
+          <p>Yes. The included Research and Definitions guide covers +EV, Kelly Criterion, CLV, drawdown, circuit breaker, and tiered betting concepts.</p>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer shell">
+    <p>Educational and entertainment use only. Not financial advice. Sports betting involves risk of loss. Gamble responsibly and follow your local laws.</p>
+  </footer>
+
+  <script>
+(() => {
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      entry.target.classList.add('show');
+      io.unobserve(entry.target);
+    }
+  }, { threshold: 0.18 });
+
+  revealEls.forEach((el) => io.observe(el));
+})();
+
+</script>
+</body>
+</html>
